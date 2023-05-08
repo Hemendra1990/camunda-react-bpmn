@@ -1,0 +1,18 @@
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.bpmn-container {
+  width: 50%;
+  height: 80%;
+  border: 1px solid black;
+}
+
+#properties {
+  width: 50%;
+  height: 20%;
+  border: 1px solid black;
+}
