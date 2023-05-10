@@ -1,0 +1,131 @@
+.task-list {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .task-list thead tr {
+    background-color: #f2f2f2;
+  }
+  
+  .task-list th,
+  .task-list td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .task-list tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+  }
+  
+  
+  .textarea-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .task-comment {
+    width: 70%;
+    min-height: 100px;
+    resize: none;
+    margin-right: 10px;
+  }
+  
+  .task-button {
+    padding: 8px 16px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .task-button:hover {
+    background-color: #45a049;
+  }
+
+  
+  
+  .task-details input:focus {
+    outline: none;
+    border-color: #3c4245;
+    box-shadow: 0 0 2px rgba(60, 66, 69, 0.3);
+  }
+  
+  .textarea-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+    margin-top: 16px;
+  }
+  
+  .task-comment {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 14px;
+    width: 100%;
+    resize: none;
+    height: 100px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .task-comment:focus {
+    outline: none;
+    border-color: #3c4245;
+    box-shadow: 0 0 2px rgba(60, 66, 69, 0.3);
+  }
+  
+  .task-button {
+    background-color: #3c4245;
+    color: #ffffff;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .task-button:hover {
+    background-color: #2c3235;
+  }
+
+  .task-details {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .task-details form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    width: 100%;
+  }
+  
+  .task-details label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .task-details input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  
+  

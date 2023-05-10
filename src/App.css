@@ -32,12 +32,12 @@
   margin-bottom: 10px;
 }
 
-.App {
+/* .App {
   display: flex;
   gap: 10px;
   width: 100%;
   height: 80%;
-}
+} */
 
 .bpmn-container {
   flex: 1;
@@ -60,3 +60,17 @@
   margin-bottom: 20px;
 }
 
+.App {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  height: 80%;
+  flex-direction: column;
+}
+
+.TaskList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}

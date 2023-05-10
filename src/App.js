@@ -26,6 +26,7 @@ import { Button } from 'primereact/button';
 import CamundaModdleDescriptor from "camunda-bpmn-moddle/resources/camunda.json";
 import axios from "axios";
 import { saveAs } from 'file-saver';
+import TaskList from "./Tasklist";
 
 function App() {
   const [modeler, setModeler] = useState(null);
@@ -36,6 +37,8 @@ function App() {
   const [processInstance, setProcessInstance] = useState();
   const [createFlowFlag, setCreateFlowFlag] = useState(false);
   const [processInstanceId, setProcessInstanceId] = useState(undefined);
+  const [assignee, setAssignee] = useState(undefined);
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
     if(createFlowFlag) {
@@ -168,6 +171,20 @@ function App() {
     saveAs(blob, `process_diagram-${processInstanceId}.png`);
   }
 
+  async function getAllTasks() {
+    const response = await fetch(`http://localhost:9010/workflow/tasks/${assignee}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch tasks');
+    }
+    
+    response.json().then((data) => {
+      console.log('Tasks', JSON.stringify(data));
+      console.log(data);
+      setTasks(data);
+    });
+
+  }
+
   const preStyle = {
     backgroundColor: "#f4f4f4",
     padding: "10px",
@@ -213,6 +230,18 @@ function App() {
             <Button onClick={downloadProcessDiagram} label="Download Process Diagram" className="app-button" />
           </>
         )}
+
+        <input
+          className="process-name-input"
+          placeholder="Enter assignee name"
+          type="text"
+          value={assignee}
+          onChange={(e) => setAssignee(e.target.value)}
+          onBlur={() => getAllTasks()}
+        />
+      </div>
+      <div className="App">
+        <TaskList tasks={tasks} />
       </div>
       {createFlowFlag && (
         <div className="App">
