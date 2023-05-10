@@ -176,57 +176,52 @@ function App() {
     fontFamily: "monospace",
   };
 
-  return (
-    <>
-      <input
-        placeholder="Enter process file name"
-        type="text"
-        value={processName}
-        onChange={(e) => setProcessName(e.target.value)}
-      />
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      {/* <button onClick={validateModel}>Validate Model</button> */}
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <button onClick={getAllDeployments}>Get All Flows</button>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <button onClick={exportDiagram}>Save Flow</button>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      {showDeploymentDropdown && (
-        <>
-          <select onChange={handleProcessChange}>
-            <option value="">Select Process to Start(For testing)</option>
-            {deployments.map((deployment) => {
-              return (
-                <option
-                  key={deployment.processDefinitionId}
-                  value={deployment.processDefinitionId}
-                >
-                  {deployment.processDefinitionName}
-                </option>
-              );
-            })}
-          </select>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <button onClick={startProcess}>Start Process</button>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <pre style={preStyle}>
-            <code>{JSON.stringify(processInstance, null, 2)}</code>
-          </pre>
-          <button onClick={downloadProcessDiagram}>Download Process Diagram</button>
+  
 
-        </>
-      )}
-      { createFlowFlag && (
+  return (
+    <div className="app-container">
+      <h1 className="app-name">Flow Builder</h1>
+      <div className="header">
+        <input
+          className="process-name-input"
+          placeholder="Enter process file name"
+          type="text"
+          value={processName}
+          onChange={(e) => setProcessName(e.target.value)}
+        />
+        <Button onClick={getAllDeployments} label="Get All Flows" className="app-button" />
+        <Button onClick={exportDiagram} label="Save Flow" className="app-button" />
+        {showDeploymentDropdown && (
+          <>
+            <select className="process-select" onChange={handleProcessChange}>
+              <option value="">Select Process to Start(For testing)</option>
+              {deployments.map((deployment) => {
+                return (
+                  <option
+                    key={deployment.processDefinitionId}
+                    value={deployment.processDefinitionId}
+                  >
+                    {deployment.processDefinitionName}
+                  </option>
+                );
+              })}
+            </select>
+            <Button onClick={startProcess} label="Start Process" className="app-button" />
+            <pre style={preStyle}>
+              <code>{JSON.stringify(processInstance, null, 2)}</code>
+            </pre>
+            <Button onClick={downloadProcessDiagram} label="Download Process Diagram" className="app-button" />
+          </>
+        )}
+      </div>
+      {createFlowFlag && (
         <div className="App">
-          <div
-            className="bpmn-container"
-            style={{ width: "80%", height: "80%" }}
-          ></div>
-          <div id="properties" style={{ width: "30%", height: "80%" }}></div>
+          <div className="bpmn-container"></div>
+          <div id="properties" className="properties-panel"></div>
         </div>
       )}
-      <button onClick={renderFlowBuilder}>Create Flow/Process</button>
-    </>
+      <Button onClick={renderFlowBuilder} label="Create Flow/Process" className="app-button" />
+    </div>
   );
 }
 
