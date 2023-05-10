@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import './Tasklist.css';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
 
-const TaskList = ({tasks}) => {
+const TaskList = ({ tasks }) => {
   const [selectedTask, setSelectedTask] = useState(null);
   const { register, handleSubmit } = useForm();
+  const [finalComment, setFinalComment] = useState('');
 
   const showTaskDetails = (task) => {
     setSelectedTask(task);
@@ -12,6 +14,31 @@ const TaskList = ({tasks}) => {
 
   const onSubmit = (data) => {
     console.log('Form Data:', data);
+  };
+
+  const handleCompleteTask = () => {
+    console.log('Task Completed', selectedTask);
+    const taskId = selectedTask.id;
+    /* axios.get(`http://localhost:9010/workflow/tasks/${taskId}/complete`)
+      .then((response) => {
+        console.log('Task Completed', response);
+        alert('Task Completed');
+      }
+    ); */
+
+    axios.post(`http://localhost:9010/workflow/tasks/${taskId}/complete`, {
+      ...selectedTask.variables,
+      "comment": "This is a comment",
+      "Final Comments": finalComment
+    }).then((response) => {
+      console.log('Task Completed', response);
+      alert('Task Completed');
+    })
+
+  };
+
+  const handleFinalComment = (e) => {
+    setFinalComment(e.target.value);
   };
 
   return (
@@ -59,11 +86,11 @@ const TaskList = ({tasks}) => {
                 />
               </div>
             ))}
-            
+
           </form>
           <div className="textarea-container">
-            <textarea className="task-comment" placeholder="Add a comment"></textarea>
-            <button className="task-button">Submit</button>
+            <textarea value={finalComment} onChange={handleFinalComment} className="task-comment" placeholder="Add a comment"></textarea>
+            <button className="task-button" onClick={handleCompleteTask}>Submit</button>
           </div>
         </div>
       )}
