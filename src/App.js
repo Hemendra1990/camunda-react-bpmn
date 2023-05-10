@@ -13,9 +13,19 @@ import "bpmn-js/dist/assets/diagram-js.css";
 import "bpmn-js-properties-panel/dist/assets/properties-panel.css";
 import "./App.css";
 
+//theme
+import "primereact/resources/themes/lara-light-indigo/theme.css";     
+//core
+import "primereact/resources/primereact.min.css";
+
+
+import { Button } from 'primereact/button';
+        
+
 // use Camunda BPMN namespace
 import CamundaModdleDescriptor from "camunda-bpmn-moddle/resources/camunda.json";
 import axios from "axios";
+import { saveAs } from 'file-saver';
 
 function App() {
   const [modeler, setModeler] = useState(null);
@@ -25,6 +35,7 @@ function App() {
   const [prcessDefId, setProcessDefId] = useState(undefined);
   const [processInstance, setProcessInstance] = useState();
   const [createFlowFlag, setCreateFlowFlag] = useState(false);
+  const [processInstanceId, setProcessInstanceId] = useState(undefined);
 
   useEffect(() => {
     if(createFlowFlag) {
@@ -135,10 +146,11 @@ function App() {
       console.log(output); // "bcbfb4ee-ebed-11ed-b6ac-ced0cc1d8c70"
 
       axios
-        .get(`http://localhost:9010/workflow/start/${output}}`)
+        .get(`http://localhost:9010/workflow/start/${prcessDefId}`)
         .then((response) => {
           console.log(response.data);
           setProcessInstance(response.data);
+          setProcessInstanceId(response.data.id);
         });
     }
   };
@@ -146,6 +158,15 @@ function App() {
   const renderFlowBuilder = () => {
     setCreateFlowFlag(true);
   };
+
+  async function downloadProcessDiagram() {
+    const response = await fetch(`http://localhost:9010/workflow/process-instance/${processInstanceId}/diagram`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch process diagram');
+    }
+    const blob = await response.blob();
+    saveAs(blob, `process_diagram-${processInstanceId}.png`);
+  }
 
   const preStyle = {
     backgroundColor: "#f4f4f4",
@@ -164,7 +185,7 @@ function App() {
         onChange={(e) => setProcessName(e.target.value)}
       />
       &nbsp;&nbsp;&nbsp;&nbsp;
-      <button onClick={validateModel}>Validate Model</button>
+      {/* <button onClick={validateModel}>Validate Model</button> */}
       &nbsp;&nbsp;&nbsp;&nbsp;
       <button onClick={getAllDeployments}>Get All Flows</button>
       &nbsp;&nbsp;&nbsp;&nbsp;
@@ -189,8 +210,10 @@ function App() {
           <button onClick={startProcess}>Start Process</button>
           &nbsp;&nbsp;&nbsp;&nbsp;
           <pre style={preStyle}>
-            <code>{processInstance}</code>
+            <code>{JSON.stringify(processInstance, null, 2)}</code>
           </pre>
+          <button onClick={downloadProcessDiagram}>Download Process Diagram</button>
+
         </>
       )}
       { createFlowFlag && (
@@ -199,7 +222,7 @@ function App() {
             className="bpmn-container"
             style={{ width: "80%", height: "80%" }}
           ></div>
-          <div id="properties" style={{ width: "20%", height: "80%" }}></div>
+          <div id="properties" style={{ width: "30%", height: "80%" }}></div>
         </div>
       )}
       <button onClick={renderFlowBuilder}>Create Flow/Process</button>
