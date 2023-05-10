@@ -42,7 +42,8 @@ const TaskList = ({ tasks }) => {
   };
 
   return (
-    <div>
+    <>
+    {tasks && tasks.length > 0 ? <div>
       <table className="task-list">
         <thead>
           <tr>
@@ -94,7 +95,8 @@ const TaskList = ({ tasks }) => {
           </div>
         </div>
       )}
-    </div>
+    </div> : <div className="no-task"></div>}
+    </>
   );
 };
 

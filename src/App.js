@@ -240,7 +240,7 @@ function App() {
           onBlur={() => getAllTasks()}
         />
       </div>
-      <div className="App">
+      <div className="AppTask">
         <TaskList tasks={tasks} />
       </div>
       {createFlowFlag && (
