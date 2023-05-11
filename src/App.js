@@ -27,6 +27,7 @@ import CamundaModdleDescriptor from "camunda-bpmn-moddle/resources/camunda.json"
 import axios from "axios";
 import { saveAs } from 'file-saver';
 import TaskList from "./Tasklist";
+import generateRandomJson from "./generateRandomJson";
 
 function App() {
   const [modeler, setModeler] = useState(null);
@@ -148,8 +149,18 @@ function App() {
       const output = match ? match[1] : null;
       console.log(output); // "bcbfb4ee-ebed-11ed-b6ac-ced0cc1d8c70"
 
-      axios
+      const json = generateRandomJson();
+      console.log("Process Variables:", json);
+
+      /* axios
         .get(`http://localhost:9010/workflow/start/${prcessDefId}`)
+        .then((response) => {
+          console.log(response.data);
+          setProcessInstance(response.data);
+          setProcessInstanceId(response.data.id);
+        }); */
+
+        axios.post(`http://localhost:9010/workflow/start/${prcessDefId}`, {...json})
         .then((response) => {
           console.log(response.data);
           setProcessInstance(response.data);
